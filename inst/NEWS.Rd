@@ -2,6 +2,15 @@
 \title{scrapper News}
 \encoding{UTF-8}
 
+\section{Version 1.6.2}{\itemize{
+\item Modified default \code{extra.work} to respect IRLBA's internal defaults for better performance.
+\item Fix to preserve dimnames during assay extraction in the \code{quick*Qc.se()} wrappers, so that they can be matched to character \code{subsets=}. 
+}}
+
+\section{Version 1.6.1}{\itemize{
+\item Fix to disable medians in \code{aggregateByCells()} by default, as it's slow and not usually desired.
+}}
+
 \section{Version 1.6.0}{\itemize{
 \item Multiple changes to \code{clusterGraph()}:
 \itemize{
