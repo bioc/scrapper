@@ -2,6 +2,11 @@
 \title{scrapper News}
 \encoding{UTF-8}
 
+\section{Version 1.6.3}{\itemize{
++\item Prevent an R session crash when an \code{NA} is supplied to \code{block=} and \code{group=} in functions like \code{suggestRnaQcThresholds()} and \code{scoreMarkers()}.
++Now, an error is thrown if a \code{NA} value is detected.
+}}
+
 \section{Version 1.6.2}{\itemize{
 \item Modified default \code{extra.work} to respect IRLBA's internal defaults for better performance.
 \item Fix to preserve dimnames during assay extraction in the \code{quick*Qc.se()} wrappers, so that they can be matched to character \code{subsets=}. 
