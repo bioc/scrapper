@@ -97,7 +97,7 @@ Rcpp::List run_pca(
             auto res = scran_pca::blocked_pca(*(mat->ptr), block_ptr, num_blocks, opt);
             return deposit_outputs(res, opt);
         } else {
-            scran_pca::SubsetPcaBlockedOptions opt;
+            scran_pca::SubsetPcaBlockedOptions<> opt;
             fill_block_options(opt);
             auto res = scran_pca::subset_pca_blocked(*(mat->ptr), Rcpp::IntegerVector(subset), block_ptr, num_blocks, opt);
             return deposit_outputs(res, opt);
@@ -110,7 +110,7 @@ Rcpp::List run_pca(
             auto res = scran_pca::simple_pca(*(mat->ptr), opt);
             return deposit_outputs(res, opt);
         } else {
-            scran_pca::SubsetPcaOptions opt;
+            scran_pca::SubsetPcaOptions<> opt;
             fill_common_options(opt);
             auto res = scran_pca::subset_pca(*(mat->ptr), Rcpp::IntegerVector(subset), opt);
             return deposit_outputs(res, opt);
@@ -147,7 +147,7 @@ Rcpp::List run_pca_defaults(bool use_block, bool use_subset) {
 
     if (!use_block) {
         if (use_subset) {
-            scran_pca::SubsetPcaBlockedOptions opt;
+            scran_pca::SubsetPcaBlockedOptions<> opt;
             populate_common(opt);
             populate_blocked(opt);
         } else {
@@ -157,7 +157,7 @@ Rcpp::List run_pca_defaults(bool use_block, bool use_subset) {
         }
     } else {
         if (use_subset) {
-            scran_pca::SubsetPcaOptions opt;
+            scran_pca::SubsetPcaOptions<> opt;
             populate_common(opt);
         } else {
             scran_pca::SimplePcaOptions opt;
