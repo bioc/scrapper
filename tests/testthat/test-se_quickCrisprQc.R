@@ -24,6 +24,19 @@ test_that("quickCrisprQc.se works as expected", {
     expect_null(metadata(out4)$qc)
 })
 
+test_that("quickCrisprQc.se works with filtering", {
+    set.seed(239)
+    mat <- matrix(rpois(10000, 1), ncol=100)
+    se <- SummarizedExperiment(list(counts=mat))
+    out <- quickCrisprQc.se(se, more.suggest.args=list(num.mads=0))
+    expect_false(all(out$keep))
+
+    filtered <- quickCrisprQc.se(se, filter.cells=TRUE, more.suggest.args=list(num.mads=0))
+    expect_lt(ncol(filtered), ncol(se))
+    expect_equal(ncol(filtered), sum(out$keep))
+    expect_true(all(filtered$keep))
+})
+
 test_that("quickCrisprQc.se overwrites existing entries", {
     copy <- se
     copy$max.value <- "A"

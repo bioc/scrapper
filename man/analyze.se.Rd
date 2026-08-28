@@ -214,6 +214,9 @@ List containing:
 \itemize{
 \item \code{x}, a \link[SingleCellExperiment]{SingleCellExperiment} that is a copy of the input \code{x}.
 It is also decorated with the results of each analysis step - see Details.
+\item \code{unfiltered}, the SingleCellExperiment prior to filtering high-quality cells.
+This contains all QC metrics and thresholds and has the same number and order of columns as the input \code{x}.
+If \code{filter.cells=FALSE}, this is set to \code{NULL}.
 \item \code{markers}, a list of list of \link[S4Vectors]{DataFrame}s containing the marker statistics for each modality.
 Each inner list corresponds to a modality (RNA, ADT, etc.) while each DataFrame corresponds to a cluster.
 If no clusterings were generated, this is set to \code{NULL}.

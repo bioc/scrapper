@@ -14,7 +14,7 @@ test_that("analyze.se works correctly with a default run", {
     res <- default
 
     expect_identical(rownames(res$x), rownames(se))
-    expect_true(all(res$x$keep))
+    expect_identical(sum(res$x$keep), ncol(res$x))
     expect_type(res$x$keep, "logical")
     expect_null(res$x$combined.keep)
 
@@ -31,12 +31,16 @@ test_that("analyze.se works correctly with a default run", {
 
     expect_true(is.factor(res$x$graph.cluster))
     expect_identical(names(res$markers$rna), levels(res$x$graph.cluster))
+
+    expect_s4_class(res$unfiltered, "SummarizedExperiment")
+    expect_identical(ncol(res$unfiltered), ncol(se))
 })
 
 test_that("analyze.se works correctly with no filtering", {
     res <- analyze.se(se, more.tsne.args=list(max.iterations=10), filter.cells=FALSE, more.umap.args=list(num.epochs=5), num.threads=1)
     expect_identical(dim(res$x), dim(se))
     expect_true(is.matrix(counts(res$x)))
+    expect_null(res$unfiltered)
 })
 
 test_that("analyze.se works correctly with k-means clustering", {

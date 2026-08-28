@@ -47,6 +47,10 @@ Affected functions include \code{modelGeneVariances()}, \code{runPca()}, \code{s
 \code{aggregateAcrossGenes()}, and all of the \code{compute*QcMetrics()} variants.
 \item Respect the number and ordering of pre-existing factors that are passed to functions accepting categorical variables in \code{group=}, \code{block=}, etc.
 This will not change any calculations but may result in some reordering of the output for functions that return a result per factor level. 
+\item Added a \code{filter.cells=} option to \code{quickRnaQc.se()}, \code{quickAdtQc.se()} and \code{quickCrisprQc.se()}.
+If set to \code{TRUE}, these functions will subset the output SummarizedExperiment to only retain high-quality cells.
+\item Include an \code{unfiltered} object in the output of \code{analyze.se()}, to report the full distribution of QC metrics prior to any filtering.
+This is not reported if \code{filter.cells=FALSE}, in which case it would be redundant with the information in \code{x}.
 }}
 
 \section{Version 1.6.0}{\itemize{

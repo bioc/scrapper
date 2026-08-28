@@ -17,7 +17,8 @@ quickRnaQc.se(
   assay.type = "counts",
   output.prefix = NULL,
   meta.name = "qc",
-  flatten = TRUE
+  flatten = TRUE,
+  filter.cells = FALSE
 )
 
 computeRnaQcMetricsWithAltExps(
@@ -68,14 +69,20 @@ If \code{NULL}, additional outputs are not reported.}
 \item{flatten}{Logical scalar indicating whether to flatten the subset proportions into separate columns of the \code{\link[SummarizedExperiment]{colData}}.
 If \code{FALSE}, the subset proportions are stored in a nested \link[S4Vectors]{DataFrame}.}
 
+\item{filter.cells}{Boolean indicating whether to filter the output to retain only high-quality cells.}
+
 \item{compute.res}{\link[S4Vectors]{DataFrame} returned by \code{\link{computeRnaQcMetrics}}.}
 }
 \value{
-For \code{quickRnaQc.se}, \code{x} is returned with additional columns added to its \code{\link[SummarizedExperiment]{colData}}.
+For \code{quickRnaQc.se}, a copy of \code{x} is returned with additional columns added to its \code{\link[SummarizedExperiment]{colData}}.
 Each column contains per-cell values for one of the QC metrics, see \code{\link{computeRnaQcMetrics}} for details.
 The suggested thresholds are stored as a list in \code{\link[S4Vectors]{metadata}}.
 The \code{colData} also contains a \code{keep} column, specifying which cells are to be retained.
-If \code{altexp.proportions} is provided, QC metrics are added to the \code{colData} of the specified alternative experiments in the output object.
+
+If \code{filter.cells=TRUE}, the output object is filtered so that it only contains columns for which \code{keep} is true.
+By default, no filtering is performed so the number and order of the columns in the output is the same as \code{x}.
+
+If \code{altexp.proportions} is specified, QC metrics are added to the \code{colData} of the specified alternative experiments in the output object.
 
 For \code{computeRnaQcMetricsWithAltExps}, a list is returned containing:
 \itemize{

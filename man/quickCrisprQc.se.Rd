@@ -13,7 +13,8 @@ quickCrisprQc.se(
   more.suggest.args = list(),
   assay.type = "counts",
   output.prefix = NULL,
-  meta.name = "qc"
+  meta.name = "qc",
+  filter.cells = FALSE
 )
 
 formatComputeCrisprQcMetricsResult(compute.res)
@@ -38,13 +39,18 @@ see the return value of \code{\link{suggestRnaQcThresholds}} for the expected fo
 \item{meta.name}{String containing the name of the \code{\link[S4Vectors]{metadata}} entry containing additional outputs like the filtering thresholds.
 If \code{NULL}, additional outputs are not reported.}
 
+\item{filter.cells}{Boolean indicating whether to filter the output to retain only high-quality cells.}
+
 \item{compute.res}{\link[S4Vectors]{DataFrame} returned by \code{\link[scrapper]{computeCrisprQcMetrics}}.}
 }
 \value{
-For \code{quickCrisprQc.se}, \code{x} is returned with additional columns added to its \code{\link[SummarizedExperiment]{colData}}.
+For \code{quickCrisprQc.se}, a copy of \code{x} is returned with additional columns added to its \code{\link[SummarizedExperiment]{colData}}.
 Each column contains per-cell values for one of the QC metrics, see \code{\link[scrapper]{computeCrisprQcMetrics}} for details.
 The suggested thresholds are stored as a list in \code{\link[S4Vectors]{metadata}}.
 The \code{colData} also contains a \code{keep} column, specifying which cells are to be retained.
+
+If \code{filter.cells=TRUE}, the output object is filtered so that it only contains columns for which \code{keep} is true.
+By default, no filtering is performed so the number and order of the columns in the output is the same as \code{x}.
 
 For \code{formatComputeCrisprQcMetricsResult}, a \link[S4Vectors]{DataFrame} is returned with the per-cell QC metrics.
 }

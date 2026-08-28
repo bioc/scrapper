@@ -6,6 +6,7 @@ se <- SummarizedExperiment(list(counts=mat))
 
 test_that("quickRnaQc.se works as expected", {
     out <- quickRnaQc.se(se, subsets=list())
+    expect_identical(ncol(out), ncol(se))
     expect_type(out$sum, "double")
     expect_type(out$detected, "integer")
     expect_type(out$keep, "logical")
@@ -26,6 +27,19 @@ test_that("quickRnaQc.se works as expected", {
 
     out4 <- quickRnaQc.se(se, subsets=list(), meta.name=NULL)
     expect_null(metadata(out4)$qc)
+})
+
+test_that("quickRnaQc.se works with filtering", {
+    set.seed(102938)
+    mat <- matrix(rpois(10000, 1), ncol=100)
+    se <- SummarizedExperiment(list(counts=mat))
+    out <- quickRnaQc.se(se, subsets=list(), more.suggest.args=list(num.mads=0))
+    expect_false(all(out$keep))
+
+    filtered <- quickRnaQc.se(se, subsets=list(), filter.cells=TRUE, more.suggest.args=list(num.mads=0))
+    expect_lt(ncol(filtered), ncol(se))
+    expect_equal(ncol(filtered), sum(out$keep))
+    expect_true(all(filtered$keep))
 })
 
 test_that("quickRnaQc.se works with character subsets", {

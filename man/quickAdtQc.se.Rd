@@ -15,7 +15,8 @@ quickAdtQc.se(
   assay.type = "counts",
   output.prefix = NULL,
   meta.name = "qc",
-  flatten = TRUE
+  flatten = TRUE,
+  filter.cells = FALSE
 )
 
 formatComputeAdtQcMetricsResult(compute.res, flatten = TRUE)
@@ -45,13 +46,18 @@ If \code{NULL}, additional outputs are not reported.}
 \item{flatten}{Logical scalar indicating whether to flatten the subset proportions into separate columns of the \code{\link[SummarizedExperiment]{colData}}.
 If \code{FALSE}, the subset proportions are stored in a nested \link[S4Vectors]{DataFrame}.}
 
+\item{filter.cells}{Boolean indicating whether to filter the output to retain only high-quality cells.}
+
 \item{compute.res}{\link[S4Vectors]{DataFrame} returned by \code{\link{computeAdtQcMetrics}}.}
 }
 \value{
-For \code{quickAdtQc.se}, \code{x} is returned with additional columns added to its \code{\link[SummarizedExperiment]{colData}}.
+For \code{quickAdtQc.se}, a copy of \code{x} is returned with additional columns added to its \code{\link[SummarizedExperiment]{colData}}.
 Each column contains per-cell values for one of the QC metrics, see \code{\link{computeAdtQcMetrics}} for details.
 The suggested thresholds are stored as a list in \code{\link[S4Vectors]{metadata}}.
 The \code{colData} also contains a \code{keep} column, specifying which cells are to be retained.
+
+If \code{filter.cells=TRUE}, the output object is filtered so that it only contains columns for which \code{keep} is true.
+By default, no filtering is performed so the number and order of the columns in the output is the same as \code{x}.
 
 For \code{formatComputeAdtQcMetricsResult}, a \link[S4Vectors]{DataFrame} is returned with the per-cell QC metrics.
 }
